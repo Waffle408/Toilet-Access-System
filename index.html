@@ -1,0 +1,972 @@
+<!doctype html>
+<html>
+
+    <style>
+   html,* { font-family: 'Inter'; box-sizing: border-box; }
+body { background-color: #fafafa; line-height:1.6;}
+.lead { font-size: 1.5rem; font-weight: 300; }
+.container { margin: 150px auto; max-width: 960px; }
+        #keypad {
+            margin: 0 auto;
+            width: 320px;
+            height: 460px;
+        }
+        .btn {
+            color: black;
+            background: white;
+            text-align: center;
+            margin: 70px auto 40px;
+            display: block;
+            width: 400px;
+            border-radius: 6px;
+            border: 2px solid black;
+        }
+        input {
+            color: black;
+            background: white;
+            text-align: center;
+            margin: 40px auto 20px;
+            font-size: 3em;
+            display: block;
+            width: 300px;
+            border-radius: 6px;
+            border: 2px solid black;
+        }
+h1 {
+  text-align: center;
+}
+h2 {
+  text-align: center;
+}
+h3 {
+  text-align: center;
+}
+.merge {
+    margin: 0%;
+    top: 0%;
+}
+.merge2 {
+    margin: 0%;
+}
+.other {
+    margin: auto;
+  width: 50%;
+    text-align: center;
+}
+.imgother {
+
+    text-align: center;
+}
+
+.staffcode {
+    margin: auto;
+    top: 50px;
+    text-align: center;
+    position: fixed;
+    
+}
+.buttonreport2 {
+    background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: auto;
+  margin: auto;
+  width: 99%;
+  border: 3px solid green;
+  padding: 10px;
+  border: 1px solid green;
+}
+.buttonreport3 {
+    background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: auto;
+  margin: auto;
+  width: 25%;
+  border: 3px solid green;
+  padding: 10px;
+  border: 1px solid green;
+}
+.buttonreport {
+    background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+  margin: auto;
+  width: 33%;
+  border: 3px solid green;
+  padding: 10px;
+  border: 1px solid green;
+}
+.buttonreportdes {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+  margin: auto;
+  width: 33%;
+  padding: 10px;
+}
+.buttonreport4 {
+    margin: auto;
+    position: absolute;
+    right: 8px;
+
+
+}
+.betterinput {
+    width: 66%;
+    height: 5%;
+}
+#more {display: none;}
+
+.more {display: none;}
+    </style>
+    <head>
+
+        <title>Prototype Door locking System</title>
+        <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="jquery.keypad.css">
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+
+    </head>
+    <body>
+        <button id='allowreport' onclick="report()">REPORT</button>
+        <button id='' class="buttonreport4" onclick="reportbtn(4)">StaffCheckLog</button>
+    <div id="loginpage">
+            <center>
+        <img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+            </center>
+        <h2 id="info1">Scan ID Card to continue.</h2>
+        <div class="other">
+            <form action="" id="mainID">
+                <input id="SentralID" type="text"></input>
+                <button id="SubmitID" type="submit">Submit Query</button>
+            </form>                      
+                <div id='staffcode' class="other staffcode">
+                    <p class="lead"></p>
+                    <form action="" id="staffcode">
+                        <input id='staffcodeinp'type="password" class="keypad" disabled="disabled" />
+                    </form>
+                    <div id="keypad"></div>
+                </div>
+        </div>
+            <center>       
+                <h1 id="status">VACANT</h1>
+                
+            
+            <button id='idcard' class="buttonreport3" onclick="nocard()">No ID Card</button>
+            </center>
+
+
+            <div id="devtools">     <button id="lightOn">Lock</button>
+        <button id="lightOff">Unlock</button>
+        <button id="doorsim" onmousedown="dooropen()" onmouseup="doorclosed()">SimulateDoor</button>
+        <p class='merge' id="doorstat">STATUS</p>
+        <p class='merge' id="doorstat2">STATUS</p>
+                <button onclick="deleteAllCookies()">Clear COokies</button>
+                
+            </div>
+    </div>
+    <div id="reportpage">
+        <center>
+    <img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+        </center>
+    <h2 id="info1">Report Vandilism</h2>
+    <center>       
+        <h1 id="status2">In this situation you'd say the bathroom has...</h1> 
+        <p>When you report, you understand that you the last 10 people that used the facility could be introuble and you may be punished if abuse is found.</p>
+    </center>
+    <!-- <div class="other"> -->
+             <center>
+                <div id="reportbtn">
+                <button id="reportbtn" class="buttonreport" onclick="reportbtn(1)">Destruction</button>
+                <button id="reportbtn" class="buttonreport" onclick="reportbtn(2)">Illict Activites</button>
+                <button id='reportbtn' class="buttonreport" onclick="reportbtn(3)">Other</button>
+                    
+                    
+                <button id='reportbtn' class="buttonreport2" onclick="clearallvars()">Cancel</button>
+
+
+             </div>
+                <div id="des">
+                    <button class="buttonreport" onclick="reportbtn(11)">Major Destruction</button>
+                    <button class="buttonreport" onclick="reportbtn(12)">Moderate Destruction</button>
+                    <button class="buttonreport" onclick="reportbtn(13)">Mild Destruction</button>
+                    <h3 class="buttonreportdes">Major: Toilet is unusable.</h3>
+                    <h3 class="buttonreportdes">Moderate: Toilet is unpleasant to use.</h3>
+                    <h3 class="buttonreportdes">Mild: Toilet has little graffit etc...</h3>
+                    <button id='buttonreport' class="buttonreport2" onclick="clearallvars()">Cancel</button>
+                </div>
+             
+                <div id="oth">
+                    <button class="buttonreport" onclick="reportbtn(31)">Toilet Paper</button>
+                    <button class="buttonreport" onclick="reportbtn(32)">Sanitary Bin Full</button>
+                    <button class="buttonreport" onclick="reportbtn(33)">Soap/PaperTowels</button>
+                    
+                    <button id='buttonreport' class="buttonreport2" onclick="clearallvars()">Cancel</button>
+                </div>
+
+             </center>   
+           
+    <!-- </div> -->
+</div>
+
+<div id="logpage">
+    <center>
+<img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+    </center>
+<h2 id="info1">Reported Vandilism</h2>
+
+<center>
+<p id="loginfo"> Lots of info goes here :></p>
+</center>
+
+<form action="" id="blid">
+    <input class='betterinput buttonreport' type='text' id="sentralbl" placeholder="Enter name or studentID to black list">
+    <button class="buttonreport" id="SubmitBL" type="submit">Enter ID</button>
+</form>
+<h2>&#160;</h2>
+<p id="blinfo"></p>
+<button id='reportbtn' class="buttonreport2" onclick="clearallvars()">Cancel</button>
+<button onclick="lockpage()">LockToilet</button> <button onclick="clearallvars()">UnlockToilet</button>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"></script>
+<script type="text/javascript" src="jquery.keypad.js"></script>
+    <script type="text/javascript">
+
+
+
+        var loggedusers = [];
+      //  var blacklist = '';
+        const APIKEY = '';
+
+        let mainID = document.getElementById("mainID");
+        let staffID = document.getElementById("staffcode");
+            //var socket = io();
+        var noid = false;
+
+            if (APIKEY !== '') {
+
+                //API KEY USERS
+
+                const Http = new XMLHttpRequest();
+                    const url='https://cambridge-h.sentral.com.au/restapi/v1/enrolments/person-name/442269220';
+                    Http.open("GET", url);
+                    Http.send();
+
+                    Http.onreadystatechange = (e) => {
+                        console.log(Http.responseText)
+                    }
+
+            }else {
+
+                function GetUserInfo(Id) {
+                    console.log(Id)
+                    const users = [];
+
+
+
+                    users[442269220] = ["Christopher", "Talbot", false];
+                
+                    users[1111] = ["Staff", "Approved", true];
+
+                    users[442269221] = ["Rachael", "Camilleri", true];
+                
+                    users[442269222] = ["Student", "Service", false];
+
+                    return users[Id]
+                }
+
+
+
+            }
+            document.body.style.backgroundColor = "Aquamarine";
+            var staffcode = false
+            document.getElementById("des").style.display = 'none';
+            
+            document.getElementById("SubmitID").style.display = 'none';
+            document.getElementById("allowreport").disabled = 'disabled';
+            document.getElementById("oth").style.display = 'none';
+            document.getElementById("reportpage").style.display = 'none';
+            document.getElementById("staffcode").style.display = 'none';
+            document.getElementById("logpage").style.display = 'none';
+            doorlock()
+            function wait(milliseconds) {
+                var start = new Date().getTime();
+                for (var i = 0; i < 1e7; i++) {
+                    if ((new Date().getTime() - start) > milliseconds){
+                        break;
+                    }
+                }
+            }
+
+            function clearallvars() {
+                document.body.style.backgroundColor = "Aquamarine";
+                document.getElementById("status").innerHTML = 'VACANT';
+                var currentuser = null;
+                var query = null;
+                //document.getElementById("info2").innerHTML = "";
+                document.getElementById("info1").innerHTML = "Scan ID Card to continue." ;
+                document.getElementById("SentralID").value = ""
+
+                document.getElementById("des").style.display = 'none';
+            document.getElementById("oth").style.display = 'none';
+            document.getElementById("reportpage").style.display = 'none';
+            document.getElementById("staffcode").style.display = 'none';
+            document.getElementById("logpage").style.display = 'none';
+
+            document.getElementById("logo").style.display = '';
+                        document.getElementById("SentralID").style.display = '';
+                        document.getElementById("loginpage").style.display = '';
+
+            }
+
+            let blid = document.getElementById("blid");
+            let searchText = document.getElementById('blid');
+            searchText.addEventListener("keyup", search);
+
+            let timeout = null;
+
+            function search(e) {
+                console.log(e)
+                //debugger
+                //
+               // debugger
+                if (timeout && e !== 'enter') {
+                    window.clearTimeout(timeout);
+                    blquery()
+                   // document.getElementById("blid").submit(); 
+                }
+  
+                timeout = setTimeout(function () { fnFillGrid(); }, 500);
+            }
+
+function fnFillGrid() {
+  console.log('Lala');
+}
+            blid.addEventListener("submit", (e) => {
+                e.preventDefault();  
+
+                var query = document.getElementById("sentralbl").value;
+                if (GetUserInfo(query)) {
+                    var user = GetUserInfo(query);
+                    if (!blacklistid[query]) {
+                        console.log('Block')
+                        document.getElementById("blinfo").innerHTML = 'Blocked user '+ user[0]+user[1]
+
+                        // Update cookies and DB
+                       // users[query][2] = true;
+                        blacklistid[query] = true;
+                        console.log(blacklistid)
+                        setTimeout(blinfot,4000)
+                    }else {
+                        console.log('Unblock')
+                        document.getElementById("blinfo").innerHTML = 'Unblocked '+ user[0]+user[1]
+
+                        // Update cookies and DB
+                        //users[query][2] = false;
+                        blacklistid[query] = false;
+                        setTimeout(blinfot,4000)
+                    }
+                }
+            });
+            function blquery() {
+
+                var query = document.getElementById("sentralbl").value;
+                if (GetUserInfo(query)) {
+
+
+                if (blacklistid[query]) {
+                    document.getElementById("SubmitBL").innerHTML = 'Allow Normal Access';
+                    // Unblacklist
+                }else {
+                    document.getElementById("SubmitBL").innerHTML = 'Require Staff Approval';
+                }
+                }else{
+                    document.getElementById("SubmitBL").innerHTML = 'Invalid User';
+                }
+            }
+
+            mainID.addEventListener("submit", (e) => {
+                e.preventDefault();               
+                var query = document.getElementById("SentralID").value;
+                document.getElementById("info1").innerHTML = 'Retreiving Sentral Database Query for usercode: ' + query;
+                if (query == 1) {
+                    setTimeout(report, 300);
+                    return;
+                }
+                if (query == 2) {
+                    setTimeout(staffpageopen, 300);
+                    return;
+                }
+                if (GetUserInfo(query)) {
+                    var currentuser = GetUserInfo(query)
+                    document.getElementById("info1").innerHTML = 'User found.. ' + currentuser[0] + ' ' + currentuser[1] + '| Searching DB for blacklists';
+                    if (currentuser[2]) {
+                        document.getElementById("info1").innerHTML = currentuser[0] + ' ' + currentuser[1] + ' requires staff approval, Please wait for assistance';
+                        //document.getElementById("info2").innerHTML = 'Expecting Keycode for staff allowed access';
+                        document.getElementById("logo").style.display = 'none';
+                        document.getElementById("SentralID").style.display = 'none';
+                        document.getElementById("status").innerHTML = '';
+                        document.getElementById("staffcode").style.display = '';
+                        document.body.style.backgroundColor = "yellow"; 
+                    }else {
+                        document.getElementById("info1").innerHTML = 'User found.. ' + currentuser[0] + ' ' + currentuser[1] + '| Allowed ';                       
+                        var d = new Date()
+                        loggedusers.push([(currentuser[0] + ' ' + currentuser[1]), d.toUTCString(), "STAFF APPROVED", "png here, maybe"])
+                        setTimeout(startocc, 300);
+                    }
+            }else {
+                document.getElementById("info1").innerHTML = 'Student Sentral ID Invalid';
+                setTimeout(clearallvars, 3000);
+            }
+        });
+                $('#keypad').keypad();
+                $('form').submit(function(e) {
+                e.preventDefault();
+              //  console.log($('input.keypad').val(), accessing );
+                if (accessing) {
+                        var enteredcode = $('input.keypad').val()
+                        document.getElementById("staffcodeinp").value = ''; 
+                        document.getElementById("staffcode").style.display = 'none'; 
+                        document.getElementById("mainID").value = '';                     
+                        document.getElementById("logo").style.display = '';
+                        document.getElementById("SentralID").style.display = '';
+                        document.getElementById("staffcodeinp").value = ''; 
+                    if (enteredcode == '1325') {
+                        staffpageopen()   
+                    }else{
+                        document.getElementById("info1").innerHTML = 'CONTACT TSO'
+                        document.body.style.backgroundColor = "red";
+                        document.getElementById("status").innerHTML = 'LOCKED >> ERROR 404';
+                        accessing = false
+                    }
+                }else if (noid) {
+                    noid = false
+                    var enteredcode = $('input.keypad').val()
+                        document.getElementById("staffcodeinp").value = ''; 
+                        document.getElementById("staffcode").style.display = 'none'; 
+                        document.getElementById("mainID").value = '';                     
+                        document.getElementById("logo").style.display = '';
+                        document.getElementById("SentralID").style.display = '';
+                        document.getElementById("staffcodeinp").value = ''; 
+                    if (enteredcode == '1325') {
+                        startocc() 
+                        var d = new Date()
+                        loggedusers.push([('STUDENT NAME'), d.toUTCString(), "No Card; Staff Approved", "png here, maybe"])
+
+                    }}
+                else{
+                
+                if ($('input.keypad').val() !== '') {
+
+                    console.log($('input.keypad').val());
+
+                    //document.getElementById("info2").innerHTML = $('input.keypad').val()
+                    document.getElementById("staffcode").style.display = 'none'; 
+                    document.getElementById("mainID").value = ''; 
+                    
+                    
+                    document.getElementById("logo").style.display = '';
+                    document.getElementById("SentralID").style.display = '';
+                    var enteredcode = $('input.keypad').val()
+                    document.getElementById("staffcodeinp").value = ''; 
+                   // document.getElementById("debugger").innerHTML = staffcode ;
+                   // document.getElementById("debugger").innerHTML = 'Passed point 1, staffcode is true ++ '+ enteredcode;
+                        
+                    if (enteredcode == '1325') {
+
+                        
+                        var query = document.getElementById('SentralID').value
+                        var currentuser = GetUserInfo(query)
+                      //  document.getElementById("debugger").innerHTML = 'Passed point 222, staffcode is true ++ '+ enteredcode + currentuser ;
+                        document.getElementById("info1").innerHTML = 'Access comfirmed ' + currentuser[0] + ' ' + currentuser[1] + '| Allowed ';
+
+                        
+
+                            // Cleared for logging and access
+                            var d = new Date()
+                            loggedusers.push([(currentuser[0] + ' ' + currentuser[1]), d.toUTCString(), "STAFF APPROVED", "png here, maybe"])
+                            console.log(loggedusers)
+
+                            startocc()
+
+                        //document.getElementById("status").innerHTML = 'OCCUPIDED';
+
+
+                        //setTimeout(clearallvars, 3000);
+
+                    }else {
+
+                        document.getElementById("info1").innerHTML = 'CONTACT TSO'
+                       // document.getElementById("info2").innerHTML = 'SYSTEM LOCKED, ACCESS DENIED'
+                        document.body.style.backgroundColor = "red";
+                        document.getElementById("status").innerHTML = 'LOCKED >> ERROR 404';
+                        setTimeout(clearallvars, 6000);
+                        
+                        //setTimeout(clearallvars, 6000);
+
+                    }
+                
+                }else {
+
+                    //debugger;
+                }
+            }      
+            
+            
+ 
+                //        setTimeout(clearallvars, 6000);
+                
+                    
+
+                });
+            
+
+
+            function startocc() {
+
+                // set screen
+                document.body.style.backgroundColor = "Aquamarine";
+                document.getElementById("info1").innerHTML = "&#160;";
+                doorunlock();
+
+               
+               
+                // Start stage 1
+                document.getElementById("status").innerHTML = 'DOOR UNLOCKED';
+                stage1()
+                
+            }
+                // unlock lock
+            function stage1() {
+                
+                if(door === false) {
+                    window.setTimeout(stage1, 100); /* this checks the flag every 100 milliseconds*/
+                } else {
+                    document.getElementById("status").innerHTML = 'OCCUPIED';
+                    document.body.style.backgroundColor = "Aquamarine";
+                    stage2()
+                }
+            }   
+                // wait for door to open
+
+            function stage2() {
+                if(door !== false) {
+                    window.setTimeout(stage2, 5); /* this checks the flag every 100 milliseconds*/
+                } else {
+                    document.getElementById("status").innerHTML = 'OCCUPIED';
+                    document.body.style.backgroundColor = "crimson";
+                    stage3()
+                    /* do something*/
+                }
+            }
+
+                // wait for door to shut
+
+            function stage3() {
+                if(door === false) {
+                    window.setTimeout(stage3, 5); /* this checks the flag every 100 milliseconds*/
+                } else {
+                    document.getElementById("status").innerHTML = 'Vacant';
+                    document.body.style.backgroundColor = "crimson";
+                    stage4()
+                    /* do something*/
+                }
+            }
+                // wait for door to open
+            function stage4() {
+                if(door !== false) {
+                    window.setTimeout(stage4, 5); /* this checks the flag every 100 milliseconds*/
+                } else {
+                    document.getElementById("status").innerHTML = 'Vacant';
+                    document.body.style.backgroundColor = "Aquamarine";
+                    doorlock()
+                    setTimeout(clearallvars, 300);
+
+                    document.getElementById("allowreport").disabled = '';
+                    setTimeout(disallowreport, 6000);
+                }
+            }
+
+                // lock lock
+                //set debug for door status
+
+                // wait for door to open siginalling exit
+
+                // set screen vacant
+
+                // lock lock
+
+                
+            loggedusers.push([("John Smith"), 'Fri, 24 Nov 2023 11:15:55 GMT', "STAFF APPROVED", "png here, maybe"])
+
+            loggedusers.push([("Jane Doe"), 'Fri, 24 Nov 2023 12:15:55 GMT', "STAFF APPROVED", "png here, maybe"])
+
+            loggedusers.push([("Jeniffier Lindstrom"), 'Fri, 24 Nov 2023 12:25:55 GMT', "STAFF APPROVED", "png here, maybe"])
+
+            loggedusers.push([("Ashley Madison"), 'Fri, 24 Nov 2023 12:45:55 GMT', "STAFF APPROVED", "png here, maybe"])
+
+            function setCookie(cname, cvalue, exdays) {
+                if (exdays !== -1) {
+                    const d = new Date();
+                    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                    let expires = "expires="+ d.toUTCString();
+                }else {
+                    expires = ""
+                }
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                  }
+                if (c.indexOf(name) == 0) {
+                   return c.substring(name.length, c.length);
+                 }
+                }
+            return "";
+            }
+
+            function reportbtn(btnno) {
+
+                if (btnno === 1) {
+                    document.getElementById("reportbtn").style.display = 'none'
+                    document.getElementById("des").style.display = ''
+                }else if (btnno === 11) {
+                    var arr2 = loggedusers;
+                    arr2.slice(Math.max(arr2.length - 10, 0));
+
+                    var arr = []
+
+                  for (let i = 0; i < arr2.length; i++) {
+
+                        addreport = arr2[i]
+                        txt = ' | '+addreport[1]+' ' + addreport[0] + ' ' + addreport[2]+' | '
+                        arr.push(txt)
+                }
+                console.log(loggedusers)
+                var auth = loggedusers[loggedusers.length-1]
+                console.log('auth: ' + auth[0])
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'Major Destruction', arr])
+
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+
+
+                //setTimeout(lockpage, 0);
+                setTimeout(clearallvars, 100)
+
+            }else if (btnno === 12) {
+                var arr2 = loggedusers;
+                    arr2.slice(Math.max(arr2.length - 10, 0));
+
+                    var arr = []
+
+                  for (let i = 0; i < arr2.length; i++) {
+
+                        addreport = arr2[i]
+                        txt = ' | '+addreport[1]+' ' + addreport[0] + ' ' + addreport[2]+' | '
+                        arr.push(txt)
+                }
+                console.log(loggedusers)
+                var auth = loggedusers[loggedusers.length-1]
+                console.log('auth: ' + auth[0])
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'Moderate Destruction', arr])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 13) {
+                var arr2 = loggedusers;
+                    arr2.slice(Math.max(arr2.length - 10, 0));
+
+                    var arr = []
+
+                  for (let i = 0; i < arr2.length; i++) {
+
+                        addreport = arr2[i]
+                        txt = ' | '+addreport[1]+' ' + addreport[0] + ' ' + addreport[2]+' | '
+                        arr.push(txt)
+                }
+                console.log(loggedusers)
+                var auth = loggedusers[loggedusers.length-1]
+                console.log('auth: ' + auth[0])
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'Minor Destruction', arr])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 2) {
+            //  document.getElementById("reportbtn").style.display = 'none'
+            var arr2 = loggedusers;
+                    arr2.slice(Math.max(arr2.length - 10, 0));
+
+                    var arr = []
+
+                  for (let i = 0; i < arr2.length; i++) {
+
+                        addreport = arr2[i]
+                        txt = ' | '+addreport[1]+' ' + addreport[0] + ' ' + addreport[2]+' | '
+                        arr.push(txt)
+                }
+                console.log(loggedusers)
+                var auth = loggedusers[loggedusers.length-1]
+                console.log('auth: ' + auth[0])
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'Illict Activities', arr])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 3) {
+                  document.getElementById("reportbtn").style.display = 'none'
+                 document.getElementById("oth").style.display = ''
+             }else if (btnno === 31) {
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'no toilet paper', 'TP'])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 32) {
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'sanitary bin full', 'TP'])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 33) {
+                d= new Date()
+                reportedlogs.push([auth[0], d.toUTCString(),'no paper towel/soap', 'TP'])
+                setCookie('loggedreports',JSON.stringify(reportedlogs),-1)
+                setTimeout(clearallvars, 300);
+            }else if (btnno === 4) {
+
+                
+                document.getElementById("staffcode").style.display = '';
+
+                accessing = true
+
+            }
+
+        }
+        var accessing = false
+        function expand(i) {
+            var dots = document.getElementById("dots"+i);
+            var moreText = document.getElementById("more"+i);
+            var btnText = document.getElementById("myBtn"+i);
+
+         if (dots.style.display === "none") {
+               dots.style.display = "inline";
+               btnText.innerHTML = "Read more"; 
+               moreText.style.display = "none";
+         } else {
+               dots.style.display = "none";
+               btnText.innerHTML = "Read less"; 
+               moreText.style.display = "inline";
+         }
+        }
+
+
+            
+        var door
+        var wrapper = document.getElementById('counter');
+        var counter;
+        var count = 0;
+        reportedlogs = []
+        console.log('COOKIES:'+document.cookie)
+        console.log('JSONIFIED STRING REPORTLOGS:'+JSON.stringify(reportedlogs))
+        if (getCookie('loggedreports') && JSON.parse(getCookie('loggedreports'))) {
+            var reportedlogs = JSON.parse(getCookie('loggedreports'));
+        }else {
+            reportedlogs = []
+        }
+
+        if (getCookie('blacklistid') && JSON.parse(getCookie('blacklistid'))) {
+            var blacklistid = JSON.parse(getCookie('blacklistid'));
+            console.log('Cookies')
+        }else {
+            console.log('Initial setup')
+            blacklistid = [];
+            blacklistid[442269221] = true;
+        }
+    //    document.cookies = []
+   
+    //console.log(JSON.stringify(reportedlogs))
+  
+
+    
+
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+}
+
+        function lockpage() {
+            document.body.style.backgroundColor = "Aquamarine";
+                document.getElementById("status").innerHTML = 'VACANT';
+                var currentuser = null;
+                var query = null;
+                //document.getElementById("info2").innerHTML = "";
+                document.getElementById("info1").innerHTML = "Scan ID Card to continue." ;
+                document.getElementById("SentralID").value = ""
+
+                document.getElementById("des").style.display = 'none';
+            document.getElementById("oth").style.display = 'none';
+            document.getElementById("reportpage").style.display = 'none';
+            document.getElementById("staffcode").style.display = 'none';
+            document.getElementById("logpage").style.display = 'none';
+
+            document.getElementById("logo").style.display = '';
+                        document.getElementById("SentralID").style.display = 'none';
+                        
+                        document.getElementById("SubmitID").style.display = 'none';
+                        document.getElementById("loginpage").style.display = '';
+
+                        document.getElementById("info1").innerHTML = 'CONTACT TSO'
+                       // document.getElementById("info2").innerHTML = 'SYSTEM LOCKED, ACCESS DENIED'
+                        document.body.style.backgroundColor = "red";
+                        document.getElementById("status").innerHTML = 'LOCKED >> ERROR 404';
+                       // setTimeout(clearallvars, 6000);
+        }
+        function dooropen() {
+
+            door = true
+            document.getElementById("doorstat").innerHTML = 'Status: OPEN' ;
+            
+        }
+        function nocard() {
+            
+            document.getElementById("info1").innerHTML = 'Wait for staff member to allow access'
+
+            document.getElementById("status").innerHTML = 'Sending HTTP REQUEST... Awaiting response.';
+           // document.getElementById("info1").innerHTML = currentuser[0] + ' ' + currentuser[1] + ' requires staff approval, Please wait for assistance';
+                        //document.getElementById("info2").innerHTML = 'Expecting Keycode for staff allowed access';
+                        document.getElementById("logo").style.display = 'none';
+                        document.getElementById("SentralID").style.display = 'none';
+                        document.getElementById("status").innerHTML = '';
+                        document.getElementById("staffcode").style.display = '';
+                        document.body.style.backgroundColor = "yellow"; 
+            noid = true
+            
+        }
+        function doorclosed() {
+            
+            door = false
+            document.getElementById("doorstat").innerHTML = 'Status: CLOSED' ;
+        }
+        function blinfot() {
+            
+            document.getElementById("blinfo").innerHTML = '&#160;' ;
+        }
+        
+        function doorlock() {
+            door = false
+            document.getElementById("doorsim").disabled = "disabled"
+            document.getElementById("doorstat2").innerHTML = "LOCKED"
+        }
+        function report() {
+
+            document.getElementById("loginpage").style.display = 'none'
+            document.getElementById("reportbtn").style.display = ''
+            document.getElementById("reportpage").style.display = ''
+
+
+           // alert('report vandilisim')
+        }
+        function staffpageopen() {
+
+
+            accessing = false
+                    //    document.getElementById("info1").innerHTML = 'Access comfirmed ' + currentuser[0] + ' ' + currentuser[1] + '| Allowed ';
+                        document.getElementById("loginpage").style.display = 'none'
+                        document.getElementById("reportpage").style.display = 'none'
+                        var text = ''
+                        for (let i = 0; i < reportedlogs.length; i++) {
+
+                          var currentreport = reportedlogs[i]
+                         var name = currentreport[0]
+                         if (currentreport[0] !== 'deleted') {
+                            text += ''+currentreport[1]+'| ' + currentreport[0] + ' REPORTED ' + currentreport[2] + '<span class="more" id="more'+i+'"> User details are | ' + currentreport[3] + "<span id='dots"+i+"'>||</span></span>    | <button onclick='expand("+i+")' id='myBtn"+i+"'>Read more</button> | <button onclick='deletereport("+i+")' id='deletebutton'>DELETE</button> <br>";
+                        }
+                    } 
+                        document.getElementById("loginfo").innerHTML = text;
+
+                        document.getElementById("logpage").style.display = ''
+        }
+        function arrayRemove(arr, value) { 
+  
+            return arr.filter(function (geeks) { 
+               return geeks != value; 
+            }); 
+
+        } 
+        function deletereport(i) {
+
+            setTimeout(clearallvars,100)
+            setCookie('loggedreports', reportedlogs, -1)
+            var temp = reportedlogs[i];
+            reportedlogs[i] = [];
+            reportedlogs[i][0] = 'deleted';
+            console.log(reportedlogs);
+            setTimeout(staffpageopen,100)
+            document.getElementById("loginfo").innerHTML = reportedlogs;
+
+        }
+        function doorunlock() {
+
+            document.getElementById("doorsim").disabled = ""
+            document.getElementById("doorstat2").innerHTML = "UNLOCKED"
+        }
+        function disallowreport() {
+
+            
+            document.getElementById("allowreport").disabled = 'disabled';
+         
+        }
+        document.getElementById('lightOn').onclick = function() {
+           
+            doorlock()
+            socket.emit('lights', { "status":"1" });
+                
+        };
+            
+        document.getElementById('lightOff').onclick = function(){
+            doorunlock()
+            socket.emit('lights', { "status":"0" });
+            
+        };
+        
+        </script>
+        
+    </body>
+</html>
