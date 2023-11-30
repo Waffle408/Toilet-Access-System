@@ -54,7 +54,8 @@ h3 {
     text-align: center;
 }
 .imgother {
-
+    width: 160px;
+    height: inherit;
     text-align: center;
 }
 
@@ -156,17 +157,17 @@ h3 {
         <button id='' class="buttonreport4" onclick="reportbtn(4)">StaffCheckLog</button>
     <div id="loginpage">
             <center>
-        <img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+        <img class="imgother" id="logo" src="schoolemblem.png">
             </center>
         <h2 id="info1">Scan ID Card to continue.</h2>
         <div class="other">
-            <form action="" id="mainID">
+            <form action="" autocomplete="off" id="mainID">
                 <input id="SentralID" type="text"></input>
                 <button id="SubmitID" type="submit">Submit Query</button>
             </form>                      
                 <div id='staffcode' class="other staffcode">
                     <p class="lead"></p>
-                    <form action="" id="staffcode">
+                    <form action="" autocomplete="off" id="staffcode">
                         <input id='staffcodeinp'type="password" class="keypad" disabled="disabled" />
                     </form>
                     <div id="keypad"></div>
@@ -191,7 +192,7 @@ h3 {
     </div>
     <div id="reportpage">
         <center>
-    <img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+    <img class="imgother" id="logo" src="schoolemblem.png">
         </center>
     <h2 id="info1">Report Vandilism</h2>
     <center>       
@@ -235,7 +236,7 @@ h3 {
 
 <div id="logpage">
     <center>
-<img class="imgother" id="logo" src="https://cambridge-h.schools.nsw.gov.au/content/dam/doe/sws/schools/c/cambridge-h/banner-and-crest-images/logo.png">
+<img class="imgother" id="logo" src="schoolemblem.png">
     </center>
 <h2 id="info1">Reported Vandilism</h2>
 
@@ -243,7 +244,7 @@ h3 {
 <p id="loginfo"> Lots of info goes here :></p>
 </center>
 
-<form action="" id="blid">
+<form action="" autocomplete="off" id="blid">
     <input class='betterinput buttonreport' type='text' id="sentralbl" placeholder="Enter name or studentID to black list">
     <button class="buttonreport" id="SubmitBL" type="submit">Enter ID</button>
 </form>
@@ -284,26 +285,46 @@ h3 {
 
             }else {
 
+                var users = [];
+
+
+
+users[442269220] = ["Christopher", "Talbot", false];
+
+users[1111] = ["Staff", "Approved", true];
+
+users[442269221] = ["Rachael", "Camilleri", true];
+
+users[442269222] = ["Student", "Service", false];
+
                 function GetUserInfo(Id) {
-                    console.log(Id)
-                    const users = [];
-
-
-
-                    users[442269220] = ["Christopher", "Talbot", false];
-                
-                    users[1111] = ["Staff", "Approved", true];
-
-                    users[442269221] = ["Rachael", "Camilleri", true];
-                
-                    users[442269222] = ["Student", "Service", false];
-
-                    return users[Id]
-                }
-
-
-
+                    //console.log(Id)
+                    if (users[Id]) {
+                        users[Id][2]= GetBlacklist(Id);
+                    }
+                    
+                //let arr = ['A', 'B', 'C'];
+                return users[Id]
             }
+            function GetBlacklist(Id) {
+             //   console.log(blacklistid, Id)
+                var returnval = false
+                blacklistid.forEach(function(x)
+                {
+                    console.log('I == :' + x, Id)
+                    if (x == Id) {
+                        console.log('User found in blacklist')
+                        returnval = true;
+                    }else {
+                       // return false;
+                    }
+                });
+                return returnval
+            }
+            function Removestr(table,str) {
+                return table.filter(e => e !== str); // will return ['A', 'C']
+            }
+}
             document.body.style.backgroundColor = "Aquamarine";
             var staffcode = false
             document.getElementById("des").style.display = 'none';
@@ -352,7 +373,7 @@ h3 {
             let timeout = null;
 
             function search(e) {
-                console.log(e)
+               // console.log(e)
                 //debugger
                 //
                // debugger
@@ -362,36 +383,42 @@ h3 {
                    // document.getElementById("blid").submit(); 
                 }
   
-                timeout = setTimeout(function () { fnFillGrid(); }, 500);
+                timeout = setTimeout(500);
             }
-
-function fnFillGrid() {
-  console.log('Lala');
-}
             blid.addEventListener("submit", (e) => {
                 e.preventDefault();  
 
                 var query = document.getElementById("sentralbl").value;
                 if (GetUserInfo(query)) {
-                    var user = GetUserInfo(query);
-                    if (!blacklistid[query]) {
-                        console.log('Block')
-                        document.getElementById("blinfo").innerHTML = 'Blocked user '+ user[0]+user[1]
-
-                        // Update cookies and DB
-                       // users[query][2] = true;
-                        blacklistid[query] = true;
-                        console.log(blacklistid)
-                        setTimeout(blinfot,4000)
-                    }else {
+                    var user = GetUserInfo(query);   
+                    console.log(GetBlacklist(query))
+                    if (GetBlacklist(query)) {
                         console.log('Unblock')
                         document.getElementById("blinfo").innerHTML = 'Unblocked '+ user[0]+user[1]
-
-                        // Update cookies and DB
-                        //users[query][2] = false;
-                        blacklistid[query] = false;
+                        //Removestr(blacklistid, query)
+                        blacklistid.forEach(function(x,k){
+                            console.log('key?? == : '+ k)
+                            console.log('X == :' + x)
+                            if (x == query) {
+                                console.log('Unblocking?')
+                                console.log('remove str '+ query + x + blacklistid[x])
+                                blacklistid[k] = "";
+                                return;
+                            }else {
+                                // return false;
+                            }
+                        });
+                        setCookie('blacklistid',JSON.stringify(blacklistid),-1)
                         setTimeout(blinfot,4000)
-                    }
+
+                    }else {
+                        console.log('Block', query)
+                        document.getElementById("blinfo").innerHTML = 'Blocked user '+ user[0]+user[1]
+
+                        blacklistid.push(String(query));
+
+                        setTimeout(blinfot,4000)
+                                           }
                 }
             });
             function blquery() {
@@ -399,9 +426,10 @@ function fnFillGrid() {
                 var query = document.getElementById("sentralbl").value;
                 if (GetUserInfo(query)) {
 
-
-                if (blacklistid[query]) {
+                    
+                if (GetBlacklist(query)) {
                     document.getElementById("SubmitBL").innerHTML = 'Allow Normal Access';
+                    
                     // Unblacklist
                 }else {
                     document.getElementById("SubmitBL").innerHTML = 'Require Staff Approval';
@@ -426,7 +454,7 @@ function fnFillGrid() {
                 if (GetUserInfo(query)) {
                     var currentuser = GetUserInfo(query)
                     document.getElementById("info1").innerHTML = 'User found.. ' + currentuser[0] + ' ' + currentuser[1] + '| Searching DB for blacklists';
-                    if (currentuser[2]) {
+                    if (GetBlacklist(query)) {
                         document.getElementById("info1").innerHTML = currentuser[0] + ' ' + currentuser[1] + ' requires staff approval, Please wait for assistance';
                         //document.getElementById("info2").innerHTML = 'Expecting Keycode for staff allowed access';
                         document.getElementById("logo").style.display = 'none';
@@ -811,7 +839,10 @@ function fnFillGrid() {
         }else {
             console.log('Initial setup')
             blacklistid = [];
-            blacklistid[442269221] = true;
+            blacklistid.push("442269221");
+            
+            blacklistid.push("442269222");
+
         }
     //    document.cookies = []
    
