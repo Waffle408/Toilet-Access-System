@@ -23,15 +23,15 @@ Features are;
 #How to use
 <p>This system is designed for a tablet style device to be mounted on a wall next to the door connect with an electromagnet through an arduino to the tablet device.</p>
 <p>  > Physcial devices include an electromagnet, button for signalling the server, an arduino, and a touchscreen capable device.</p>
-Install NodeJS
-Install NPM package serial port
-  > npm i serialport
-Install visualstudio with package "Desktop development with C++" 
-Config > Config.js (Maybe)   
-Run app.js 
-  > node app
-Go to client page
-  > localhost:3000 
+Install NodeJS<br>
+Install NPM package serial port<br>
+  > npm i serialport<br>
+Install visualstudio with package "Desktop development with C++" <br>
+Config > Config.js (Maybe)   <br>
+Run app.js <br>
+  > node app<br>
+Go to client page<br>
+  > localhost:3000 <br>
 
 
 
